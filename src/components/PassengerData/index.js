@@ -25,7 +25,7 @@ const PassengerData = ({passenger}) => {
                 {passenger.airline.map((airline, key) => {
                     return (
                     <>
-                        <View>
+                        <View key={`${passenger._id}-${airline.id}`}>
                             <Image source={{uri: airline.logo}} style={{width: 100, height: 60, resizeMode: 'contain'}}/>
                             <Text>{airline.name}</Text>
                             <Text>Destination: {airline.country}</Text>

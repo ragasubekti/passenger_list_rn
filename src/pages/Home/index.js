@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, FlatList } from 'react-native'
-import {} from 'react-native-paper'
+import { Alert, FlatList, View, Text, StyleSheet } from 'react-native'
+import { ActivityIndicator, Colors } from 'react-native-paper'
 
 import axios from 'axios'
 
@@ -40,22 +40,51 @@ const Home = () => {
     }, [])
 
     return (
-        <FlatList
-            contentContainerStyle={{
-                backgroundColor: '#fff',
-                marginTop: 15,
-            }}
-            data={passengerData}
-            keyExtractor={passenger => passenger._id}
-            onEndReached={fetchNextPassengerData}
-            onEndReachedThreshold={1}
+        <>
+            <FlatList
+                contentContainerStyle={{
+                    backgroundColor: '#fff',
+                    marginTop: 15,
+                }}
+                data={passengerData}
+                keyExtractor={passenger => passenger._id}
+                onEndReached={fetchNextPassengerData}
+                onEndReachedThreshold={2}
 
-            renderItem={({ item }) => (
-                <PassengerData passenger={item} />
-            )}
-        />
+                renderItem={({ item }) => (
+                    <PassengerData passenger={item} />
+                )}
+            />
+            {isLoading && <FixedLoadingInfo />}
+
+        </>
     )
 }
+
+const FixedLoadingInfo = () => (
+    <View style={styles.loaderContainer}>
+        <ActivityIndicator color={Colors.grey400} size={20} style={{ marginRight: 24 }} />
+        <Text style={{ fontWeight: '800', fontSize: 16 }}>Please Wait</Text>
+    </View>
+)
+
+
+const styles = StyleSheet.create({
+    loaderContainer: {
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#fff',
+        borderRadius: 8, 
+        margin: 16, 
+        padding: 16, 
+        flex: 1, 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        borderColor: "#ddd", 
+        borderWidth: 1, 
+        borderStyle: 'solid'
+    }
+})
 
 
 export default Home
